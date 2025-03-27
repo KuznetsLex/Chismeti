@@ -5,7 +5,10 @@ import static java.lang.Math.abs;
  *
  */
 public class Gen
-{
+{   
+    public double[][] a_generated;
+    public double[][] a_inv_generated;
+
     public Gen() {
     }
 
@@ -74,6 +77,9 @@ public class Gen
 
     public void mygen ( double[][] a, double[][] a_inv, int n, double alpha, double beta, int sign_law, int lambda_law, int variant, int schema )
     {
+        a_generated = a;
+        a_inv_generated = a_inv;
+
         int i,j,k;
 
         System.out.println("   M A T R I X  G E N.  ");
