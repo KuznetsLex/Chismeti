@@ -8,45 +8,72 @@ public class MatrixTransformer {
 
     public MatrixTransformer(double[][] a) {
         this.a = swapInternal(a);
+        diag = new double[a.length];
     }
 
     public double[][] getA() {
         return this.a;
     } 
 
+    public double[] getDiag() {
+        return this.diag;
+    } 
+
     public double[][] triangleMatrix() {
         for (int k=0; k<a.length-1; k++) { // итерации метода отражений
             double v[] = new double[a.length-k];
             double y[] = new double[a.length-k]; 
-            y[0] = sqrt(dotProduct(a[k], a[k], k, k)); // a[k] динамически менять надо!
+            y[0] = sqrt(dotProduct(a[k], a[k], k, k)); 
 
             for (int i=a.length-1; i>=k; i--) {
-                v[i-k] = a[k][i] - y[i-k]; // TODO sign
+                v[i-k] = a[k][i] - y[i-k];
+                if (a[k][k] != 0) {
+                    v[0] = v[0] * Math.signum(a[k][k]);
+                }
             }
             for (int j=k; j<a.length; j++) { // какие столбцы меняем
                 double[] curColumn = a[j].clone();
                 for (int i=a.length-1; i>=k; i--) { 
-                    a[j][i] -= (2 * dotProduct(v, curColumn, 0, k) / dotProduct(v, v, 0, 0)) * v[i-k]; // a[i][j] i и j поменять 
+                    if (j == k && i >= j) {
+                        if (i == j) {
+                            diag[k] = a[j][i] - (2 * dotProduct(v, curColumn, 0, k) / dotProduct(v, v, 0, 0)) * v[i-k];
+                        } 
+                        a[j][i] = v[i - k];
+                    }
+                    else {
+                        a[j][i] -= (2 * dotProduct(v, curColumn, 0, k) / dotProduct(v, v, 0, 0)) * v[i-k]; // a[i][j] i и j поменять 
+                    }
+                    
                 }
             }
-
-
-            // for (int i=0; i<a.length-k; i++) { 
-            //     x1[i] = a[k][i] - x2[i];
-            // }
-            // for (int j=0; j<a.length-k; j++) {
-            //     x2 = a[j].clone(); // x1 = v, x2 = curColumn
-            //     for (int i=0; i<a.length-k; i++) { 
-            //         a[j][i] -= (2 * dotProduct(x1, x2) / dotProduct(x1,x1)) * x1[i]; // a[i][j] i и j поменять 
-            //     }
-            // }
         }
+        diag[a.length-1] = a[a.length-1][a.length-1];
         return a;
     }
 
     public double[][] inverseMatrix() {
+        int n = diag.length;        
+        for (int i=0; i < diag.length; i++) {
+            diag[i] = 1.0/diag[i];
+        }
+
+        // Обращаем матрицу согласно алгоритму
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j = n-1; j >= i+1; j--) {
+                double sum = 0.0;
+                for (int k = i + 1; k <= j; k++) {
+                    if (j == k) {
+                        sum += a[k][i] * diag[j];
+                    } else {
+                        sum += a[k][i] * a[j][k];
+                    }
+                }
+                a[j][i] = (-1) * sum * diag[i];
+            }
+        }
         return a;
     }
+    
 
     public double[][] productMatrix() {
         return a;

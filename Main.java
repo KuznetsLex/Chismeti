@@ -15,8 +15,8 @@ public class Main {
 			}
 			System.out.println();
 		}
-
         System.out.println();
+
         System.out.println("Triangle matrix1");
 		for (int i=0; i<triangleMatrix.length; i++) {
 			for (int j=0; j<triangleMatrix.length; j++) {
@@ -24,6 +24,31 @@ public class Main {
 			}
 			System.out.println();
 		}
+		System.out.println();
+
+		for (int j=0; j<triangleMatrix.length; j++) {
+			System.out.print(transformer.getDiag()[j]);
+			System.out.print(" ");
+		}
+		System.out.println();
+
+		System.out.println();
+		double[][] reverseMatrix = transformer.inverseMatrix();
+		System.out.println("Reverse matrix1");
+		for (int i=0; i<reverseMatrix.length; i++) {
+			for (int j=0; j<reverseMatrix.length; j++) {
+				System.out.print(reverseMatrix[j][i]+ " ");
+			}
+			System.out.println();
+		}
+		System.out.println();
+
+		for (int j=0; j<triangleMatrix.length; j++) {
+			System.out.print(transformer.getDiag()[j]);
+			System.out.print(" ");
+		}
+		System.out.println();
+		
 
         // GenTest test = new GenTest();
         // test.GenTest();
