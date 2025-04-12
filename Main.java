@@ -50,6 +50,23 @@ public class Main {
 		System.out.println();
 		
 
+		System.out.println();
+		double[][] productMatrix = transformer.productMatrix();
+		System.out.println("Product matrix1");
+		for (int i=0; i<productMatrix.length; i++) {
+			for (int j=0; j<productMatrix.length; j++) {
+				System.out.print(productMatrix[j][i]+ " ");
+			}
+			System.out.println();
+		}
+		System.out.println();
+
+		for (int j=0; j<triangleMatrix.length; j++) {
+			System.out.print(transformer.getDiag()[j]);
+			System.out.print(" ");
+		}
+		System.out.println();
+
         // GenTest test = new GenTest();
         // test.GenTest();
         // MatrixTransformer transformer2 = new MatrixTransformer(test.a_generated);
